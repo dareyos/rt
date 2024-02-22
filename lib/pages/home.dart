@@ -33,7 +33,7 @@ class _HomeState extends State<Home> {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('items').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasData) return const Text('Нет записей');
+          if (!snapshot.hasData) return const Text('Нет записей');
           return ListView.builder(
             itemCount: snapshot.data.docs.length,
             itemBuilder: (BuildContext context, int index) {
