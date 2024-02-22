@@ -1,16 +1,22 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
-import 'package:flutter/material.dart';
+import 'firebase_options.dart';
 import 'package:rt/pages/home.dart';
 
-void main() => runApp(MaterialApp(
-  theme: ThemeData(
-    primaryColor: Colors.orange,
-  ),
-  home: Home(),
-  ));
+// void main() => runApp(MaterialApp(
+//   theme: ThemeData(
+//     primaryColor: Colors.orange,
+//   ),
+//   home: Home(),
+//   ));
 
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // строка позволяет запустить firebase до запуска приложения
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(MaterialApp(
+    home: Home(),
+  ));
+}
 
 // class MainApp extends StatelessWidget {
 //   const MainApp({super.key});
