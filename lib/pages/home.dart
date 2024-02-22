@@ -35,26 +35,26 @@ class _HomeState extends State<Home> {
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) return const Text('Нет записей');
           return ListView.builder(
-            itemCount: snapshot.data.docs.length,
+            itemCount: snapshot.data?.docs.length,
             itemBuilder: (BuildContext context, int index) {
               return Dismissible(
                 //чтобы удалять свайпом
-                key: Key(snapshot.data.docs[index].id), //те данные которые мы получаем - snapshot
+                key: Key(snapshot.data!.docs[index].id), //те данные которые мы получаем - snapshot
                 child: Card(
                   child: ListTile(
                     trailing: IconButton(
                         onPressed: () {
-                          FirebaseFirestore.instance.collection('items').doc(snapshot.data.docs[index].id).delete();
+                          FirebaseFirestore.instance.collection('items').doc(snapshot.data?.docs[index].id).delete();
                         },
                         icon: const Icon(
                           Icons.delete_sweep,
                           color: Colors.amber,
                         )),
-                    title: Text(snapshot.data.docs[index].get('item')),
+                    title: Text(snapshot.data?.docs[index].get('item')),
                   ),
                 ),
                 onDismissed: (direction) {
-                  FirebaseFirestore.instance.collection('items').doc(snapshot.data.docs[index].id).delete();
+                  FirebaseFirestore.instance.collection('items').doc(snapshot.data?.docs[index].id).delete();
                 },
               );
             },
@@ -78,7 +78,7 @@ class _HomeState extends State<Home> {
                     ElevatedButton(
                         onPressed: () {
                           FirebaseFirestore.instance.collection('items').add({
-                            'iten': _userToDO
+                            'item': _userToDO
                           }); //добавление в базу то что ввел юзер
 
                           Navigator.of(context).pop();
