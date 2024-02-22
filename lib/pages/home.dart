@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -28,13 +27,13 @@ class _HomeState extends State<Home> {
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
         backgroundColor: Colors.amber,
-        title: Text("Список важных дел"),
+        title: const Text("Список важных дел"),
         centerTitle: true,
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('items').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasData) return Text('Нет записей');
+          if (snapshot.hasData) return const Text('Нет записей');
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (BuildContext context, int index) {
@@ -47,7 +46,7 @@ class _HomeState extends State<Home> {
                         onPressed: () {
                           FirebaseFirestore.instance.collection('items').doc(snapshot.data.docs[index].id).delete();
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.delete_sweep,
                           color: Colors.amber,
                         )),
@@ -69,7 +68,7 @@ class _HomeState extends State<Home> {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: Text('Добавить элемент'),
+                  title: const Text('Добавить элемент'),
                   content: TextField(
                     onChanged: (String value) {
                       _userToDO = value;
@@ -84,12 +83,12 @@ class _HomeState extends State<Home> {
 
                           Navigator.of(context).pop();
                         },
-                        child: Text('Добавить'))
+                        child: const Text('Добавить'))
                   ],
                 );
               });
         },
-        child: Icon(
+        child: const Icon(
           Icons.add_box,
           color: Colors.white,
         ),

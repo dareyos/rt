@@ -13,7 +13,7 @@ import 'package:rt/pages/home.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized(); // строка позволяет запустить firebase до запуска приложения
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: Home(),
   ));
 }
