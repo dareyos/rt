@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) return const Text('Нет записей');
           return ListView.builder(
-            itemCount: snapshot.data!.docs.length,
+            itemCount: snapshot.data.docs.length,
             itemBuilder: (BuildContext context, int index) {
               return Dismissible(
                 //чтобы удалять свайпом
@@ -50,7 +50,7 @@ class _HomeState extends State<Home> {
                           Icons.delete_sweep,
                           color: Colors.amber,
                         )),
-                    title: Text(snapshot.data!.docs[index].get('item')),
+                    title: Text(snapshot.data.docs[index].get('item')),
                   ),
                 ),
                 onDismissed: (direction) {
