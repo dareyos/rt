@@ -9,17 +9,15 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  //тут
-
   late String _userToDO;
   List todoList = [];
 
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    todoList.addAll(['Buy Milk', 'Wash dishes', 'Купить картошку']);
-  }
+  //   todoList.addAll(['Buy Milk', 'Wash dishes', 'Купить картошку']);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +31,12 @@ class _HomeState extends State<Home> {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('items').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) return const Text('Нет записей');
+          if (!snapshot.hasData) {
+            return const Text('Загрузка...');
+          }
+          if (snapshot.data!.docs.isEmpty) {
+            return const Text('Записей нет');
+          }
           return ListView.builder(
             itemCount: snapshot.data?.docs.length,
             itemBuilder: (BuildContext context, int index) {
@@ -44,17 +47,58 @@ class _HomeState extends State<Home> {
                   child: ListTile(
                     trailing: IconButton(
                         onPressed: () {
-                          FirebaseFirestore.instance.collection('items').doc(snapshot.data?.docs[index].id).delete();
+                          FirebaseFirestore.instance
+                              .collection('items')
+                              .doc(snapshot.data?.docs[index].id)
+                              .delete();
                         },
                         icon: const Icon(
                           Icons.delete_sweep,
                           color: Colors.amber,
                         )),
                     title: Text(snapshot.data?.docs[index].get('item')),
+                    subtitle: Column(
+                      children: [
+                        ElevatedButton(
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text('Изменить элемент'),
+                                      content: TextField(
+                                        onChanged: (String value) {
+                                          _userToDO = value;
+                                        },
+                                      ),
+                                      actions: [
+                                        ElevatedButton(
+                                            onPressed: () {
+                                              FirebaseFirestore.instance
+                                                  .collection('items')
+                                                  .doc(snapshot
+                                                      .data?.docs[index].id)
+                                                  .update({
+                                                'item': _userToDO,
+                                              }); //добавление в базу то что ввел юзер
+
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text('Подтвердить'))
+                                      ],
+                                    );
+                                  });
+                            },
+                            child: const Text("Изменить")),
+                      ],
+                    ),
                   ),
                 ),
                 onDismissed: (direction) {
-                  FirebaseFirestore.instance.collection('items').doc(snapshot.data?.docs[index].id).delete();
+                  FirebaseFirestore.instance
+                      .collection('items')
+                      .doc(snapshot.data?.docs[index].id)
+                      .delete();
                 },
               );
             },
@@ -78,7 +122,7 @@ class _HomeState extends State<Home> {
                     ElevatedButton(
                         onPressed: () {
                           FirebaseFirestore.instance.collection('items').add({
-                            'item': _userToDO
+                            'item': _userToDO,
                           }); //добавление в базу то что ввел юзер
 
                           Navigator.of(context).pop();
