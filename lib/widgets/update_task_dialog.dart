@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rt/utils/colors.dart';
-//import 'package:fluttertoast/fluttertoast.dart';
 
 class UpdateTaskAlertDialog extends StatefulWidget {
   final String taskId, taskName, taskDesc, taskTag;
