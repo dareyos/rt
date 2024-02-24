@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+//import 'package:fluttertoast/fluttertoast.dart';
 
 class DeleteTaskDialog extends StatefulWidget {
   final String taskId, taskName;
@@ -19,7 +19,7 @@ class _DeleteTaskDialogState extends State<DeleteTaskDialog> {
     return AlertDialog(
       scrollable: true,
       title: const Text(
-        'Удалить запись?',
+        'Удаление',
         textAlign: TextAlign.center,
         style: TextStyle(fontSize: 16, color: Colors.brown),
       ),
@@ -28,7 +28,7 @@ class _DeleteTaskDialogState extends State<DeleteTaskDialog> {
           child: Column(
             children: <Widget>[
               const Text(
-                'Вы уверены, что хотите удалить данную запись?',
+                'Удаленные данные не подлежат восстановлению!',
                 style: TextStyle(fontSize: 14),
               ),
               const SizedBox(height: 15),
@@ -50,7 +50,7 @@ class _DeleteTaskDialogState extends State<DeleteTaskDialog> {
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.grey,
           ),
-          child: const Text('Отмена'),
+          child: const Text('Я передумал'),
         ),
         ElevatedButton(
           onPressed: () {
@@ -60,7 +60,7 @@ class _DeleteTaskDialogState extends State<DeleteTaskDialog> {
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.white,
           ),
-          child: const Text('Удалить'),
+          child: const Text('Хочу удалить'),
         ),
       ],
     );

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+//import 'package:fluttertoast/fluttertoast.dart';
 
 class UpdateTaskAlertDialog extends StatefulWidget {
   final String taskId, taskName, taskDesc, taskTag;
@@ -18,7 +18,7 @@ class UpdateTaskAlertDialog extends StatefulWidget {
 class _UpdateTaskAlertDialogState extends State<UpdateTaskAlertDialog> {
   final TextEditingController taskNameController = TextEditingController();
   final TextEditingController taskDescController = TextEditingController();
-  final List<String> taskTags = ['Жизнь', 'Университет', 'Другое'];
+  final List<String> taskTags = ['Дела по учебе/работе', 'Дела по дому', 'Другие дела'];
   String selectedValue = '';
 
   @override
@@ -31,7 +31,7 @@ class _UpdateTaskAlertDialogState extends State<UpdateTaskAlertDialog> {
     return AlertDialog(
       scrollable: true,
       title: const Text(
-        'Изменить запись',
+        'Редактирование заметки',
         textAlign: TextAlign.center,
         style: TextStyle(fontSize: 16, color: Colors.brown),
       ),
@@ -138,7 +138,7 @@ class _UpdateTaskAlertDialogState extends State<UpdateTaskAlertDialog> {
             _updateTasks(taskName, taskDesc, taskTag);
             Navigator.of(context, rootNavigator: true).pop();
           },
-          child: const Text('Изменить'),
+          child: const Text('Редактировать'),
         ),
       ],
     );

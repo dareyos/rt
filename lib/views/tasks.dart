@@ -30,9 +30,9 @@ class _TasksState extends State<Tasks> {
                 Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
                 Color taskColor = AppColors.blueShadeColor;
                 var taskTag = data['taskTag'];
-                if (taskTag == 'Жизнь') {
+                if (taskTag == 'Дела по учебе/работе') {
                   taskColor = AppColors.salmonColor;
-                } else if (taskTag == 'Университет') {
+                } else if (taskTag == 'Дела по дому') {
                   taskColor = AppColors.greenShadeColor;
                 }
                 return Container(
@@ -68,7 +68,7 @@ class _TasksState extends State<Tasks> {
                           PopupMenuItem(
                             value: 'edit',
                             child: const Text(
-                              'Изменить',
+                              'Редактировать',
                               style: TextStyle(fontSize: 13.0),
                             ),
                             onTap: () {

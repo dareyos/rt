@@ -15,7 +15,7 @@ class AddTaskAlertDialog extends StatefulWidget {
 class _AddTaskAlertDialogState extends State<AddTaskAlertDialog> {
   final TextEditingController taskNameController = TextEditingController();
   final TextEditingController taskDescController = TextEditingController();
-  final List<String> taskTags = ['Жизнь', 'Университет', 'Другое'];
+  final List<String> taskTags = ['Дела по учебе/работе', 'Дела по дому', 'Другие дела'];
   late String selectedValue = '';
 
   @override
@@ -25,7 +25,7 @@ class _AddTaskAlertDialogState extends State<AddTaskAlertDialog> {
     return AlertDialog(
       scrollable: true,
       title: const Text(
-        'Новая заметка',
+        'Создать заметку',
         textAlign: TextAlign.center,
         style: TextStyle(fontSize: 16, color: Colors.brown),
       ),
@@ -86,7 +86,7 @@ class _AddTaskAlertDialogState extends State<AddTaskAlertDialog> {
                       ),
                       isExpanded: true,
                       hint: const Text(
-                        'Категория заметки',
+                        'Тег',
                         style: TextStyle(fontSize: 14),
                       ),
                       buttonHeight: 60,

@@ -16,10 +16,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 235, 220, 178),
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 128, 99, 89),
+        backgroundColor: const Color.fromARGB(255, 102, 46, 28),
         centerTitle: true,
-        title: const Text("Список дел", style: TextStyle(color: Colors.black),),
+        title: const Text("мой список дел", style: TextStyle(color: Colors.white),),
       ),
       extendBody: true,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
