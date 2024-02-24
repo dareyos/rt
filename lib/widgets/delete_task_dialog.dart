@@ -31,8 +31,13 @@ class _DeleteTaskDialogState extends State<DeleteTaskDialog> {
                 color: AppColors.secondPrimeryColor,
                 fontWeight: FontWeight.bold),
           ),
-          SizedBox(width: 2,),
-          Icon(Icons.delete, color: AppColors.secondPrimeryColor,),
+          SizedBox(
+            width: 2,
+          ),
+          Icon(
+            Icons.delete,
+            color: AppColors.secondPrimeryColor,
+          ),
         ],
       ),
       content: SizedBox(
@@ -45,7 +50,7 @@ class _DeleteTaskDialogState extends State<DeleteTaskDialog> {
               ),
               const SizedBox(height: 16),
               Text(
-                widget.taskName.toString(),
+                widget.taskName.toString(), //текущая информация в заметке
                 style:
                     const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               ),
@@ -60,12 +65,16 @@ class _DeleteTaskDialogState extends State<DeleteTaskDialog> {
           children: [
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context, rootNavigator: true).pop();
+                Navigator.of(context, rootNavigator: true)
+                    .pop(); //отменяем удаление
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
               ),
-              child: const Text('Отменить', style: TextStyle(color: AppColors.secondPrimeryColor),),
+              child: const Text(
+                'Отменить',
+                style: TextStyle(color: AppColors.secondPrimeryColor),
+              ),
             ),
             const SizedBox(
               width: 16,
@@ -73,12 +82,16 @@ class _DeleteTaskDialogState extends State<DeleteTaskDialog> {
             ElevatedButton(
               onPressed: () {
                 _deleteTasks();
-                Navigator.of(context, rootNavigator: true).pop();
+                Navigator.of(context, rootNavigator: true)
+                    .pop(); //удаляем, закрываем
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
               ),
-              child: const Text('Удалить', style: TextStyle(color: AppColors.secondPrimeryColor),),
+              child: const Text(
+                'Удалить',
+                style: TextStyle(color: AppColors.secondPrimeryColor),
+              ),
             ),
           ],
         ),
@@ -87,6 +100,7 @@ class _DeleteTaskDialogState extends State<DeleteTaskDialog> {
   }
 
   Future _deleteTasks() async {
+    //функция удаления
     var collection = FirebaseFirestore.instance.collection('tasks');
     collection.doc(widget.taskId).delete();
   }
