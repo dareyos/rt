@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rt/utils/colors.dart';
 import '../widgets/add_task_dialog.dart';
 import 'tasks.dart';
 
@@ -11,36 +12,33 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final PageController pageController = PageController(initialPage: 0);
+  final PageController pageController = PageController(initialPage: 1); //вылет списка дел
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 235, 220, 178),
+      backgroundColor: AppColors.firstPrimeryColor,
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 102, 46, 28),
+        backgroundColor: AppColors.secondPrimeryColor,
         centerTitle: true,
         title: const Text("мой список дел", style: TextStyle(color: Colors.white),),
       ),
-      extendBody: true,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
+      extendBody: true, //виджет, нижний отступ которого соответствует высоте bottomNavigationBar.
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked, //расположение кнопки плюс
+      floatingActionButton: FloatingActionButton( //кнопочка добавить
+        backgroundColor: AppColors.secondPrimeryColor,
         onPressed: () {
           showDialog(
             context: context,
             builder: (BuildContext context) {
-              return const AddTaskAlertDialog();
+              return const AddTaskAlertDialog(); //возвращаем окно прописанное в файле виджетс
             },
           );
         },
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add, color: Colors.white, size: 30,),
       ),
-      bottomNavigationBar: const BottomAppBar(
-        child: SizedBox(
-          height: kBottomNavigationBarHeight,
-        ),
-      ),
-      body: PageView(
+      
+      body: PageView( //наши заметочки
         controller: pageController,
         children: const <Widget>[
           Center(

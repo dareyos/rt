@@ -13,17 +13,23 @@ class Tasks extends StatefulWidget {
 }
 
 class _TasksState extends State<Tasks> {
-  final fireStore = FirebaseFirestore.instance;
+  final fireStore = FirebaseFirestore.instance; //записываем в отдельную переменную строчку для взаимодействия с бд
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(10.0),
       child: StreamBuilder<QuerySnapshot>(
-        stream: fireStore.collection('tasks').snapshots(),
+        stream: fireStore.collection('tasks').snapshots(), //получаем данные о заметках в бд
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Text('Нет заметок');
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Text('Загрузка...');
+        }
+        else if (snapshot.hasError) {
+          return const Text('Ошибка получения данных');
+        }
+        else if (snapshot.data!.docs.isEmpty) {
+          return const Text('Записей нет');
           } else {
             return ListView(
               children: snapshot.data!.docs.map((DocumentSnapshot document) {
@@ -37,9 +43,9 @@ class _TasksState extends State<Tasks> {
                 }
                 return Container(
                   height: 100,
-                  margin: const EdgeInsets.only(bottom: 15.0),
+                  margin: const EdgeInsets.only(bottom: 20.0), //округляем наши кнопочки
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.0),
+                    borderRadius: BorderRadius.circular(20.0), //округляем наши окошечки
                     color: Colors.white,
                     boxShadow: const [
                       BoxShadow(
@@ -63,13 +69,14 @@ class _TasksState extends State<Tasks> {
                     subtitle: Text(data['taskDesc']),
                     isThreeLine: true,
                     trailing: PopupMenuButton(
+                      color: AppColors.firstPrimeryColor,
                       itemBuilder: (context) {
                         return [
                           PopupMenuItem(
                             value: 'edit',
                             child: const Text(
                               'Редактировать',
-                              style: TextStyle(fontSize: 13.0),
+                              style: TextStyle(fontSize: 14.0, color: AppColors.secondPrimeryColor),
                             ),
                             onTap: () {
                               String taskId = (data['id']);
@@ -89,7 +96,7 @@ class _TasksState extends State<Tasks> {
                             value: 'delete',
                             child: const Text(
                               'Удалить',
-                              style: TextStyle(fontSize: 13.0),
+                              style: TextStyle(fontSize: 14.0, color: AppColors.secondPrimeryColor),
                             ),
                             onTap: (){
                               String taskId = (data['id']);

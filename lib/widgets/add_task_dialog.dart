@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rt/utils/colors.dart';
 
 class AddTaskAlertDialog extends StatefulWidget {
   const AddTaskAlertDialog({
@@ -23,11 +24,12 @@ class _AddTaskAlertDialogState extends State<AddTaskAlertDialog> {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return AlertDialog(
+      backgroundColor: AppColors.firstPrimeryColor,
       scrollable: true,
       title: const Text(
         'Создать заметку',
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 16, color: Colors.brown),
+        style: TextStyle(fontSize: 16, color:AppColors.secondPrimeryColor, fontWeight: FontWeight.bold),
       ),
       content: SizedBox(
         height: height * 0.35,
@@ -45,9 +47,9 @@ class _AddTaskAlertDialogState extends State<AddTaskAlertDialog> {
                   ),
                   hintText: 'Заметка',
                   hintStyle: const TextStyle(fontSize: 14),
-                  icon: const Icon(CupertinoIcons.square_list, color: Colors.brown),
+                  icon: const Icon(Icons.assignment_add, color: AppColors.secondPrimeryColor),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(15), 
                   ),
                 ),
               ),
@@ -64,7 +66,7 @@ class _AddTaskAlertDialogState extends State<AddTaskAlertDialog> {
                   ),
                   hintText: 'Описание',
                   hintStyle: const TextStyle(fontSize: 14),
-                  icon: const Icon(CupertinoIcons.bubble_left_bubble_right, color: Colors.brown),
+                  icon: const Icon(Icons.bookmark_add_outlined, color: AppColors.secondPrimeryColor),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
@@ -73,7 +75,7 @@ class _AddTaskAlertDialogState extends State<AddTaskAlertDialog> {
               const SizedBox(height: 15),
               Row(
                 children: <Widget>[
-                  const Icon(CupertinoIcons.tag, color: Colors.brown),
+                  const Icon(Icons.tag, color: AppColors.secondPrimeryColor),
                   const SizedBox(width: 15.0),
                   Expanded(
                     child: DropdownButtonFormField2(
@@ -120,15 +122,19 @@ class _AddTaskAlertDialogState extends State<AddTaskAlertDialog> {
         ),
       ),
       actions: [
-        ElevatedButton(
-          onPressed: () {
-            Navigator.of(context, rootNavigator: true).pop();
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.grey,
-          ),
-          child: const Text('Отмена'),
-        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context, rootNavigator: true).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+              ),
+              child: const Text('Отменить', style: TextStyle(color: AppColors.secondPrimeryColor),),
+            ),
+         const SizedBox(width: 16,),
         ElevatedButton(
           onPressed: () {
             final taskName = taskNameController.text;
@@ -137,7 +143,9 @@ class _AddTaskAlertDialogState extends State<AddTaskAlertDialog> {
             _addTasks(taskName: taskName, taskDesc: taskDesc, taskTag: taskTag);
             Navigator.of(context, rootNavigator: true).pop();
           },
-          child: const Text('Сохранить'),
+          child: const Text('Добавить', style: TextStyle(color: AppColors.secondPrimeryColor)),
+        ),
+         ],
         ),
       ],
     );

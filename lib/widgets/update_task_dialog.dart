@@ -2,13 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rt/utils/colors.dart';
 //import 'package:fluttertoast/fluttertoast.dart';
 
 class UpdateTaskAlertDialog extends StatefulWidget {
   final String taskId, taskName, taskDesc, taskTag;
 
   const UpdateTaskAlertDialog(
-      {Key? Key, required this.taskId, required this.taskName, required this.taskDesc, required this.taskTag})
+      {Key? Key,
+      required this.taskId,
+      required this.taskName,
+      required this.taskDesc,
+      required this.taskTag})
       : super(key: Key);
 
   @override
@@ -18,7 +23,11 @@ class UpdateTaskAlertDialog extends StatefulWidget {
 class _UpdateTaskAlertDialogState extends State<UpdateTaskAlertDialog> {
   final TextEditingController taskNameController = TextEditingController();
   final TextEditingController taskDescController = TextEditingController();
-  final List<String> taskTags = ['Дела по учебе/работе', 'Дела по дому', 'Другие дела'];
+  final List<String> taskTags = [
+    'Дела по учебе/работе',
+    'Дела по дому',
+    'Другие дела'
+  ];
   String selectedValue = '';
 
   @override
@@ -29,11 +38,15 @@ class _UpdateTaskAlertDialogState extends State<UpdateTaskAlertDialog> {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return AlertDialog(
+      backgroundColor: AppColors.firstPrimeryColor,
       scrollable: true,
       title: const Text(
         'Редактирование заметки',
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 16, color: Colors.brown),
+        style: TextStyle(
+            fontSize: 16,
+            color: AppColors.secondPrimeryColor,
+            fontWeight: FontWeight.bold),
       ),
       content: SizedBox(
         height: height * 0.35,
@@ -49,7 +62,8 @@ class _UpdateTaskAlertDialogState extends State<UpdateTaskAlertDialog> {
                     horizontal: 20,
                     vertical: 20,
                   ),
-                  icon: const Icon(CupertinoIcons.square_list, color: Colors.brown),
+                  icon: const Icon(Icons.assignment_add,
+                      color: AppColors.secondPrimeryColor),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
@@ -66,7 +80,8 @@ class _UpdateTaskAlertDialogState extends State<UpdateTaskAlertDialog> {
                     horizontal: 20,
                     vertical: 20,
                   ),
-                  icon: const Icon(CupertinoIcons.bubble_left_bubble_right, color: Colors.brown),
+                  icon: const Icon(Icons.bookmark_add_outlined,
+                      color: AppColors.secondPrimeryColor),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
@@ -75,7 +90,8 @@ class _UpdateTaskAlertDialogState extends State<UpdateTaskAlertDialog> {
               const SizedBox(height: 15),
               Row(
                 children: <Widget>[
-                  const Icon(CupertinoIcons.tag, color: Colors.brown),
+                  const Icon(Icons.tag,
+                      color: AppColors.secondPrimeryColor),
                   const SizedBox(width: 15.0),
                   Expanded(
                     child: DropdownButtonFormField2(
@@ -120,25 +136,41 @@ class _UpdateTaskAlertDialogState extends State<UpdateTaskAlertDialog> {
         ),
       ),
       actions: [
-        ElevatedButton(
-          onPressed: () {
-            Navigator.of(context, rootNavigator: true).pop();
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.grey,
-          ),
-          child: const Text('Отмена'),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            final taskName = taskNameController.text;
-            final taskDesc = taskDescController.text;
-            var taskTag = '';
-            selectedValue == '' ? taskTag = widget.taskTag : taskTag = selectedValue;
-            _updateTasks(taskName, taskDesc, taskTag);
-            Navigator.of(context, rootNavigator: true).pop();
-          },
-          child: const Text('Редактировать'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context, rootNavigator: true).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+              ),
+              child: const Text(
+                'Отменить',
+                style: TextStyle(color: AppColors.secondPrimeryColor),
+              ),
+            ),
+            const SizedBox(
+              width: 16,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final taskName = taskNameController.text;
+                final taskDesc = taskDescController.text;
+                var taskTag = '';
+                selectedValue == ''
+                    ? taskTag = widget.taskTag
+                    : taskTag = selectedValue;
+                _updateTasks(taskName, taskDesc, taskTag);
+                Navigator.of(context, rootNavigator: true).pop();
+              },
+              child: const Text(
+                'Редактировать',
+                style: TextStyle(color: AppColors.secondPrimeryColor),
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -146,8 +178,7 @@ class _UpdateTaskAlertDialogState extends State<UpdateTaskAlertDialog> {
 
   Future _updateTasks(String taskName, String taskDesc, String taskTag) async {
     var collection = FirebaseFirestore.instance.collection('tasks');
-    collection
-        .doc(widget.taskId)
-        .update({'taskName': taskName, 'taskDesc': taskDesc, 'taskTag': taskTag});
+    collection.doc(widget.taskId).update(
+        {'taskName': taskName, 'taskDesc': taskDesc, 'taskTag': taskTag});
   }
 }
