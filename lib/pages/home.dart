@@ -9,34 +9,30 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  
   late String _userToDO;
-  List todoList = [];
-
-  // @override
-  // void initState() {
-  //   super.initState();
-
-  //   todoList.addAll(['Buy Milk', 'Wash dishes', 'Купить картошку']);
-  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: Color.fromRGBO(245, 173, 230, 1),
       appBar: AppBar(
-        backgroundColor: Colors.amber,
-        title: const Text("Список важных дел"),
+        backgroundColor: Color.fromRGBO(251, 44, 206, 0.992),
+        title: const Text("СПИСОК ВАЖНЫХ ДЕЛ", style: TextStyle(color: Color.fromRGBO(92, 2, 78, 1), fontWeight: FontWeight.bold),),
         centerTitle: true,
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('items').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) {
-            return const Text('Загрузка...');
-          }
-          if (snapshot.data!.docs.isEmpty) {
-            return const Text('Записей нет');
-          }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Text('Загрузка...');
+        }
+        if (snapshot.hasError) {
+          return const Text('Ошибка получения данных');
+        }
+        if (snapshot.data!.docs.isEmpty) {
+          return const Text('Записей нет'); //почему то не работает
+        }
           return ListView.builder(
             itemCount: snapshot.data?.docs.length,
             itemBuilder: (BuildContext context, int index) {
@@ -44,6 +40,9 @@ class _HomeState extends State<Home> {
                 //чтобы удалять свайпом
                 key: Key(snapshot.data!.docs[index].id), //те данные которые мы получаем - snapshot
                 child: Card(
+                  shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          elevation: 1,
                   child: ListTile(
                     trailing: IconButton(
                         onPressed: () {
@@ -54,10 +53,11 @@ class _HomeState extends State<Home> {
                         },
                         icon: const Icon(
                           Icons.delete_sweep,
-                          color: Colors.amber,
+                          color: Color.fromRGBO(251, 44, 206, 0.992),
                         )),
                     title: Text(snapshot.data?.docs[index].get('item')),
                     subtitle: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         ElevatedButton(
                             onPressed: () {
@@ -80,7 +80,7 @@ class _HomeState extends State<Home> {
                                                       .data?.docs[index].id)
                                                   .update({
                                                 'item': _userToDO,
-                                              }); //добавление в базу то что ввел юзер
+                                              }); //изменение в базе то что ввел юзер
 
                                               Navigator.of(context).pop();
                                             },
@@ -106,7 +106,7 @@ class _HomeState extends State<Home> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.amber,
+        backgroundColor: const Color.fromRGBO(251, 44, 206, 0.992),
         onPressed: () {
           showDialog(
               context: context,
